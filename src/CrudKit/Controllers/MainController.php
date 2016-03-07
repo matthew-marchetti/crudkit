@@ -8,7 +8,13 @@ use CrudKit\Util\ValueBag;
 class MainController extends BaseController {
     public function handle_default () {
         $firstPage = $this->app->getDefaultPage ();
-        if($firstPage !== null) {
+        if(empty($_SESSION['__ck_logged_in'])) {
+            return array(
+                'type' => 'redirect',
+                'url' => $this->routeGen->openPage ($firstPage->getId())
+            );
+        }
+        elseif($firstPage !== null) {
             return array(
                 'type' => 'redirect',
                 'url' => $this->routeGen->openPage ($firstPage->getId())
